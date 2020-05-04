@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [listItems, setListItems] = React.useState([]);
+  const [inputValue, setInputValue] = React.useState("");
+  const [toggle, setToggle] = React.useState(false);
+
+  const handleInput = (e) => {
+    setInputValue(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const handleClick = () => {
+    setToggle(!toggle);
+  };
+
+  const keyPress = (e) => {
+    if (e.keyCode === 13) {
+      setListItems([...listItems, e.target.value]);
+      console.log("value", e.target.value);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>hello</p>
+      <button onClick={handleClick}>Add to-do item</button>
+      {toggle ? (
+        <div>
+          <input
+            className="input"
+            type="text"
+            onChange={handleInput}
+            onKeyDown={keyPress}
+            value={inputValue}
+          />
+          <div>
+            {listItems.map((item, index) => (
+              <div className="ingredient-container">
+                <li key={index}>{item}</li>
+                <button
+                  className="delete-btn"
+                >
+                  Delete item
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
-}
+};
 
 export default App;
