@@ -8,7 +8,6 @@ const App = () => {
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleClick = () => {
@@ -18,9 +17,13 @@ const App = () => {
   const keyPress = (e) => {
     if (e.keyCode === 13) {
       setListItems([...listItems, e.target.value]);
-      console.log("value", e.target.value);
     }
   };
+
+  const deleteItem = (el) => {
+    const newArray = listItems.filter((inputValue) => inputValue !== el);
+    setListItems(newArray);
+  }
 
   return (
     <div className="App">
@@ -41,6 +44,7 @@ const App = () => {
                 <li key={index}>{item}</li>
                 <button
                   className="delete-btn"
+                  onClick={() => deleteItem(item)}
                 >
                   Delete item
                 </button>
