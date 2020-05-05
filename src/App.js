@@ -5,6 +5,7 @@ const App = () => {
   const [listItems, setListItems] = React.useState([]);
   const [inputValue, setInputValue] = React.useState("");
   const [toggle, setToggle] = React.useState(false);
+  const [completed, setCompleted] =React.useState(false);
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
@@ -25,9 +26,13 @@ const App = () => {
     setListItems(newArray);
   }
 
+  const handleCompleted = () => {
+    setCompleted(!completed)
+  }
+
   return (
     <div className="App">
-      <p>hello</p>
+      <p>To-do list</p>
       <button onClick={handleClick}>Add to-do item</button>
       {toggle ? (
         <div>
@@ -42,12 +47,14 @@ const App = () => {
             {listItems.map((item, index) => (
               <div className="ingredient-container">
                 <li key={index}>{item}</li>
+                {completed ? <h4>Completed</h4> : ""}
                 <button
                   className="delete-btn"
                   onClick={() => deleteItem(item)}
                 >
                   Delete item
                 </button>
+                <button onClick={handleCompleted}>Complete task</button>
               </div>
             ))}
           </div>
