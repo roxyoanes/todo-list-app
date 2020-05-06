@@ -1,11 +1,13 @@
 import React from "react";
+import { v4 as uuidv4 } from 'uuid';
+
 import "./App.css";
 
 const App = () => {
   const [listItems, setListItems] = React.useState([]);
   const [inputValue, setInputValue] = React.useState("");
   const [toggle, setToggle] = React.useState(false);
-  const [completed, setCompleted] =React.useState(false);
+
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
@@ -13,21 +15,27 @@ const App = () => {
 
   const handleClick = () => {
     setToggle(!toggle);
-  };
+  }; 
 
   const keyPress = (e) => {
     if (e.keyCode === 13) {
-      setListItems([...listItems, e.target.value]);
+      const item = {
+      id: uuidv4(),
+      text: e.target.value,
+      completed: false,
+    }
+      setListItems([...listItems, item]);
     }
   };
 
-  const deleteItem = (el) => {
-    const newArray = listItems.filter((inputValue) => inputValue !== el);
+  const deleteItem = (id) => {
+    const newArray = listItems.filter((item) => item.id !== id);
     setListItems(newArray);
   }
 
-  const handleCompleted = () => {
-    setCompleted(!completed)
+  const handleCompleted = (id) => {
+    const newArr = listItems.map((item) => item.id === id ? !item.completed : item);
+    setListItems(newArr);
   }
 
   return (
@@ -44,17 +52,16 @@ const App = () => {
             value={inputValue}
           />
           <div>
-            {listItems.map((item, index) => (
-              <div className="ingredient-container">
-                <li key={index}>{item}</li>
-                {completed ? <h4>Completed</h4> : ""}
+            {listItems.map((item) => (
+              <div key={item.id} className="ingredient-container">
+                <li key={item.id}>{item.text}</li>
                 <button
                   className="delete-btn"
-                  onClick={() => deleteItem(item)}
+                  onClick={() => deleteItem(item.id)}
                 >
                   Delete item
                 </button>
-                <button onClick={handleCompleted}>Complete task</button>
+                <button onClick={() => handleCompleted(item.id)}>Complete task</button>
               </div>
             ))}
           </div>
