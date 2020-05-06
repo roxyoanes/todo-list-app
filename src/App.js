@@ -34,7 +34,8 @@ const App = () => {
   }
 
   const handleCompleted = (id) => {
-    const newArr = listItems.map((item) => item.id === id ? !item.completed : item);
+    const newArr = listItems.map((item) => item.id === id ? {...item, completed: !item.completed} : item);
+    console.log(newArr)
     setListItems(newArr);
   }
 
@@ -55,6 +56,7 @@ const App = () => {
             {listItems.map((item) => (
               <div key={item.id} className="ingredient-container">
                 <li key={item.id}>{item.text}</li>
+                {item.completed ? <p>completed</p> : ""}
                 <button
                   className="delete-btn"
                   onClick={() => deleteItem(item.id)}
